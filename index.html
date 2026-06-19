@@ -861,7 +861,7 @@
       let activeIndex = 0;
       let model;
 
-      const loader = new GLTFLoader();
+     const loader = new GLTFLoader();
       loader.load(
         "scene.gltf",
         (gltf) => {
@@ -869,10 +869,17 @@
           model.scale.set(0.12, 0.12, 0.12);
           model.position.set(0, 100, 0);
           model.traverse((child) => {
-            if (child.isMesh && child.material) {
-              child.material.metalness = 0.9;
-              child.material.roughness = 0.1;
-              child.material.needsUpdate = true;
+            if (child.isMesh) {
+              // 기존의 불투명한 재질을 투명한 유리 재질로 덮어쓰기
+              child.material = new THREE.MeshPhysicalMaterial({
+                color: 0xffffff,
+                metalness: 0.0,
+                roughness: 0.05,
+                transmission: 1.0,
+                ior: 1.5,
+                thickness: 0.5,
+                transparent: true,
+              });
             }
           });
           scene.add(model);
@@ -880,17 +887,20 @@
         undefined,
         (error) => {
           const geometry = new THREE.CylinderGeometry(0.6, 0.4, 2, 32);
+          // 텍스처 로드 실패 시 나타나는 대체 모델에도 동일한 유리 재질 적용
           const material = new THREE.MeshPhysicalMaterial({
-            color: 0x111111,
-            metalness: 1.0,
-            roughness: 0.1,
-            clearcoat: 1.0,
-            clearcoatRoughness: 0.1,
+            color: 0xffffff,
+            metalness: 0.0,
+            roughness: 0.05,
+            transmission: 1.0,
+            ior: 1.5,
+            thickness: 0.5,
+            transparent: true,
           });
           model = new THREE.Mesh(geometry, material);
           model.position.set(0, 0, 0);
           scene.add(model);
-        },
+        }
       );
 
       const clock = new THREE.Clock();
