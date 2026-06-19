@@ -868,19 +868,7 @@
           model = gltf.scene;
           model.scale.set(0.12, 0.12, 0.12);
           model.position.set(0, 100, 0);
-          model.traverse((child) => {
-            if (child.isMesh) {
-              // 기존의 불투명한 재질을 투명한 유리 재질로 덮어쓰기
-              child.material = new THREE.MeshPhysicalMaterial({
-                color: 0xffffff,
-                metalness: 0.0,
-                roughness: 0.05,
-                transmission: 1.0,
-                ior: 1.5,
-                thickness: 0.5,
-                transparent: true,
-              });
-            }
+
           });
           scene.add(model);
         },
