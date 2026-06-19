@@ -8,7 +8,7 @@
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
     />
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Nanum+Pen+Script&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Nanum+Pen+Script&display=swap");
 
       body {
         margin: 0;
@@ -143,10 +143,23 @@
 
       .main-logo {
         width: 100%;
-        max-width: 600px;
-        height: auto;
+        max-width: 400px; /* 600px에서 400px로 크기 축소 */
+        aspect-ratio: 1 / 1; /* 완벽한 원형을 위해 비율 1:1 고정 */
+        object-fit: contain; /* 원 안에서 로고 이미지가 찌그러지지 않게 유지 */
         margin-bottom: 10px;
         display: block;
+
+        /* 글라스모피즘 스타일 유지 */
+        background: rgba(169, 169, 169, 0.15);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+        /* 완전한 원형 처리 및 안쪽 여백 조절 */
+        border-radius: 20%;
+        padding: 1px;
+        box-sizing: border-box;
       }
 
       .subtitle {
@@ -207,8 +220,7 @@
       .octopus-wrapper.sku-info {
         flex-grow: 1;
         min-width: 600px;
-        background: transparent; 
-        box-shadow: none;
+        background: transparent;
         padding: 0;
         display: flex;
         flex-direction: column;
@@ -218,6 +230,7 @@
         transition: all 0.6s ease-out;
         position: relative;
         z-index: 4;
+        filter: drop-shadow(15px 15px 0 rgba(0, 0, 0, 0.2));
       }
 
       .pane.active .octopus-wrapper.sku-info {
@@ -225,23 +238,23 @@
         opacity: 1;
       }
 
+      /* 문어 머리 부분: 부드러운 유기적 형태로 수정 */
       .octo-head {
-        background: #111;
         width: 100%;
-        border-radius: 120px 120px 30px 30px; 
-        padding: 50px 50px 30px 50px;
+        padding: 60px 50px 40px 50px;
         text-align: center;
         position: relative;
         z-index: 3;
         box-sizing: border-box;
-        box-shadow: 15px 15px 0 rgba(0, 0, 0, 0.2);
+        border-radius: 120px 120px 30px 30px;
       }
 
-      .sku-title {
-        font-size: 2.5rem;
-        margin: 0 0 10px 0;
-        display: inline-block;
-        border-bottom: 4px solid #fff;
+      .sku-title-img {
+        height: 45px;
+        width: auto;
+        display: block;
+        margin: 0 auto 15px auto;
+        border-bottom: 4px solid currentColor;
         padding-bottom: 10px;
       }
 
@@ -260,62 +273,75 @@
       .octo-tentacles {
         display: flex;
         justify-content: space-between;
-        width: 95%;
-        margin-top: -15px; 
+        width: 98%;
+        margin-top: -10px;
         z-index: 2;
-        gap: 12px;
+        gap: 8px;
       }
 
-      @keyframes floatTentacle {
+      /* 구불구불한 다리의 유기적인 애니메이션 */
+      @keyframes floatWriggle1 {
         0%,
         100% {
-          transform: translateY(0);
+          transform: translateY(0) rotate(0deg);
         }
         50% {
-          transform: translateY(8px);
+          transform: translateY(8px) rotate(-3deg);
+        }
+      }
+      @keyframes floatWriggle2 {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(12px) rotate(4deg);
         }
       }
 
+      /* 문어 다리 부분: 이미지처럼 휘어지고 좁아지는 S곡선 구현 */
       .tentacle {
-        background: #111;
         flex: 1;
-        border-radius: 0 0 40px 40px; 
-        padding: 40px 15px 25px 15px;
+        padding: 30px 15px 50px 15px;
         text-align: center;
         display: flex;
         flex-direction: column;
         align-items: center;
-        box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.2);
         font-size: 0.95rem;
         line-height: 1.4;
         word-break: keep-all;
         transition: transform 0.3s ease;
       }
 
+      /* 짝수/홀수 다리가 서로 다른 방향으로 휘어지게 처리 */
       .tentacle:nth-child(1) {
-        animation: floatTentacle 3s ease-in-out infinite;
+        border-radius: 10px 40px 100% 20% / 10px 40px 70% 60%;
+        animation: floatWriggle1 3s ease-in-out infinite;
       }
       .tentacle:nth-child(2) {
-        animation: floatTentacle 3.5s ease-in-out infinite 0.5s;
+        border-radius: 40px 10px 20% 100% / 40px 10px 60% 70%;
+        animation: floatWriggle2 3.5s ease-in-out infinite 0.5s;
       }
       .tentacle:nth-child(3) {
-        animation: floatTentacle 3.2s ease-in-out infinite 1s;
+        border-radius: 15px 35px 90% 10% / 15px 35px 80% 50%;
+        animation: floatWriggle1 3.2s ease-in-out infinite 1s;
       }
       .tentacle:nth-child(4) {
-        animation: floatTentacle 3.8s ease-in-out infinite 0.2s;
+        border-radius: 35px 15px 10% 90% / 35px 15px 50% 80%;
+        animation: floatWriggle2 3.8s ease-in-out infinite 0.2s;
       }
 
       .tentacle:hover {
         animation-play-state: paused;
-        transform: translateY(15px) scale(1.05) !important;
+        transform: translateY(10px) scale(1.05) !important;
       }
 
       .tentacle strong {
         font-size: 1.1rem;
         margin-bottom: 12px;
         padding-bottom: 10px;
-        border-bottom: 2px dashed rgba(255, 255, 255, 0.2);
         width: 80%;
+        display: inline-block;
       }
 
       .tentacle span {
@@ -323,23 +349,45 @@
         margin-bottom: 10px;
       }
 
+      /* 흡반들이 모여있는 군집 형태 */
       .tentacle-suckers {
         display: flex;
-        gap: 6px;
-        margin-top: auto; 
-        padding-top: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+        margin-top: auto;
+        padding-top: 20px;
+        width: 85%;
       }
 
+      /* 속이 빈 동그란 흡반들 (이미지와 유사하게 선이 두꺼운 원 모양) */
       .sucker {
+        border-radius: 50%;
+        background: transparent;
+      }
+
+      /* 흡반 크기를 다양하게 섞어서 유기적인 느낌 추가 */
+      .sucker:nth-child(1),
+      .sucker:nth-child(5) {
+        width: 12px;
+        height: 12px;
+        border-width: 3px;
+      }
+      .sucker:nth-child(2),
+      .sucker:nth-child(4),
+      .sucker:nth-child(7) {
         width: 8px;
         height: 8px;
-        border: 2px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.05);
+        border-width: 2px;
+      }
+      .sucker:nth-child(3),
+      .sucker:nth-child(6) {
+        width: 14px;
+        height: 14px;
+        border-width: 3px;
       }
 
       .octo-actions {
-        background: #111;
         margin-top: 25px;
         padding: 15px 35px;
         border-radius: 50px;
@@ -348,14 +396,12 @@
         align-items: center;
         gap: 15px;
         z-index: 3;
-        box-shadow: 15px 15px 0 rgba(0, 0, 0, 0.2);
         width: 85%;
         box-sizing: border-box;
       }
 
       .price {
         font-size: 1.6rem;
-        color: #fff;
         font-weight: 900;
         letter-spacing: 1px;
         margin-right: auto;
@@ -372,12 +418,6 @@
         transition: all 0.3s;
       }
 
-      .buy-btn {
-        background: #fff;
-        color: #111;
-        border: none;
-      }
-
       .buy-btn:hover {
         transform: scale(1.05);
         box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
@@ -385,59 +425,111 @@
 
       .detail-btn {
         background: transparent;
-        color: #fff;
       }
 
       .detail-btn:hover {
         transform: scale(1.05);
       }
 
-      .second .buy-btn {
-        color: #ccff00;
-        background: #111;
-        border: 2px solid #ccff00;
-      }
-      .second .buy-btn:hover {
+      /* SKU 색상별 테마 적용 (형태의 배경색 및 텍스트 색상) */
+
+      /* CAUTION (Yellow) */
+      .second .octo-head,
+      .second .tentacle,
+      .second .octo-actions {
         background: #ccff00;
         color: #111;
       }
-      .second .detail-btn {
-        border: 2px solid #fff;
+      .second .sku-desc,
+      .second .sku-meta,
+      .second .tentacle strong,
+      .second .tentacle span,
+      .second .price {
+        color: #111;
       }
-      .second .detail-btn:hover {
-        background: rgba(255, 255, 255, 0.2);
+      .second .tentacle strong {
+        border-bottom: 2px dashed rgba(17, 17, 17, 0.4);
+      }
+      .second .sucker {
+        border: solid rgba(17, 17, 17, 0.7);
+      }
+      .second .sku-title-img {
+        border-bottom-color: #111;
+      }
+      .second .buy-btn {
+        background: #111;
+        color: #ccff00;
+        border: none;
+      }
+      .second .detail-btn {
+        color: #111;
+        border: 2px solid #111;
       }
 
-      .third .buy-btn {
-        color: #7b2cbf;
-        background: #111;
-        border: 2px solid #7b2cbf;
-      }
-      .third .buy-btn:hover {
+      /* WARNING (Purple) */
+      .third .octo-head,
+      .third .tentacle,
+      .third .octo-actions {
         background: #7b2cbf;
         color: #fff;
       }
+      .third .sku-desc,
+      .third .sku-meta,
+      .third .tentacle strong,
+      .third .tentacle span,
+      .third .price {
+        color: #fff;
+      }
+      .third .tentacle strong {
+        border-bottom: 2px dashed rgba(255, 255, 255, 0.4);
+      }
+      .third .sucker {
+        border: solid rgba(255, 255, 255, 0.7);
+      }
+      .third .sku-title-img {
+        border-bottom-color: #fff;
+      }
+      .third .buy-btn {
+        background: #fff;
+        color: #7b2cbf;
+        border: none;
+      }
       .third .detail-btn {
+        color: #fff;
         border: 2px solid #fff;
       }
-      .third .detail-btn:hover {
-        background: rgba(255, 255, 255, 0.2);
-      }
 
-      .fourth .buy-btn {
-        color: #ff007f;
-        background: #111;
-        border: 2px solid #ff007f;
-      }
-      .fourth .buy-btn:hover {
+      /* DANGER (Pink) */
+      .fourth .octo-head,
+      .fourth .tentacle,
+      .fourth .octo-actions {
         background: #ff007f;
         color: #fff;
       }
-      .fourth .detail-btn {
-        border: 2px solid #fff;
+      .fourth .sku-desc,
+      .fourth .sku-meta,
+      .fourth .tentacle strong,
+      .fourth .tentacle span,
+      .fourth .price {
+        color: #fff;
       }
-      .fourth .detail-btn:hover {
-        background: rgba(255, 255, 255, 0.2);
+      .fourth .tentacle strong {
+        border-bottom: 2px dashed rgba(255, 255, 255, 0.4);
+      }
+      .fourth .sucker {
+        border: solid rgba(255, 255, 255, 0.7);
+      }
+      .fourth .sku-title-img {
+        border-bottom-color: #fff;
+      }
+      .fourth .buy-btn {
+        background: #fff;
+        color: #ff007f;
+        border: none;
+      }
+      .fourth .detail-btn {
+        color: #fff;
+        border: 2px solid #fff;
       }
 
       .label-box {
@@ -486,7 +578,7 @@
         transform: scale(1.05);
       }
 
-      /* Modal Styles (Report Style with Original Content) */
+      /* Modal Styles */
       #detailModal {
         position: fixed;
         top: 0;
@@ -541,7 +633,9 @@
         height: 20px;
         border-radius: 50%;
         background: #f4f4f4;
-        box-shadow: inset 2px 2px 4px rgba(0,0,0,0.2), 1px 1px 0 rgba(255,255,255,0.8);
+        box-shadow:
+          inset 2px 2px 4px rgba(0, 0, 0, 0.2),
+          1px 1px 0 rgba(255, 255, 255, 0.8);
       }
 
       .report-main {
@@ -637,7 +731,6 @@
       }
 
       .handwritten {
-   
         color: #111;
         line-height: 1.3;
       }
@@ -704,7 +797,7 @@
         font-size: 1.5rem;
         line-height: 1;
       }
-      
+
       .warning-text {
         color: #d32f2f;
         font-weight: 900;
@@ -1205,11 +1298,7 @@
         });
 
         const threeCanvas = document.getElementById("canvas");
-        if (activeIndex === 0) {
-          threeCanvas.style.opacity = "0.2";
-        } else {
-          threeCanvas.style.opacity = "1";
-        }
+        threeCanvas.style.opacity = "1"; // 첫 페이지에서도 투명해지지 않도록 항상 1로 고정
       }
 
       function handleSectionChange(deltaY) {
@@ -1375,7 +1464,7 @@
           if (skuType === "caution") testNumber = "012";
           if (skuType === "warning") testNumber = "043";
           if (skuType === "danger") testNumber = "089";
-          
+
           mTestNo.textContent = testNumber;
           mTitle.textContent = data.title;
           mTitle.style.color = data.color;
@@ -1429,48 +1518,65 @@
             <img src="Question%20mark.png" alt="Caution mark" />
           </div>
           <div class="sku-info octopus-wrapper">
-            <div class="octo-head" style="color: #ccff00">
-              <h2 class="sku-title">CAUTION</h2>
-              <div class="sku-meta" style="color: #aaa">
+            <div class="octo-head">
+              <img src="caution.png" class="sku-title-img" alt="CAUTION" />
+              <div class="sku-meta">
                 조주 난이도: ★☆☆☆☆ | 위험 요소: 신맛, 탄산
               </div>
-              <p class="sku-desc" style="color: #fff">
-                낮은 난이도에서 누구나 자신의 취향대로 자유롭게 조합하며 노는 키트
+              <p class="sku-desc">
+                낮은 난이도에서 누구나 자신의 취향대로 자유롭게 조합하며 노는
+                키트
               </p>
             </div>
 
-            <div class="octo-tentacles" style="color: #ddd">
+            <div class="octo-tentacles">
               <div class="tentacle">
-                <strong style="color: #fff">베이스술</strong>
+                <strong>베이스술</strong>
                 <span>도수가 낮은 보드카</span>
                 <div class="tentacle-suckers">
                   <div class="sucker"></div>
                   <div class="sucker"></div>
                   <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
                 </div>
               </div>
               <div class="tentacle">
-                <strong style="color: #fff">리큐르</strong>
+                <strong>리큐르</strong>
                 <span>트리플섹, 블루 큐라소, 진</span>
                 <div class="tentacle-suckers">
                   <div class="sucker"></div>
                   <div class="sucker"></div>
                   <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
                 </div>
               </div>
               <div class="tentacle">
-                <strong style="color: #fff">부재료</strong>
+                <strong>부재료</strong>
                 <span>라임, 탄산수</span>
                 <div class="tentacle-suckers">
                   <div class="sucker"></div>
                   <div class="sucker"></div>
                   <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
                 </div>
               </div>
               <div class="tentacle">
-                <strong style="color: #fff">실험도구</strong>
+                <strong>실험도구</strong>
                 <span>쉐이커, 지거, 믹싱 글라스, 바스푼</span>
                 <div class="tentacle-suckers">
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
                   <div class="sucker"></div>
                   <div class="sucker"></div>
                   <div class="sucker"></div>
@@ -1493,48 +1599,65 @@
             <img src="exclamation%20mark.png" alt="Warning mark" />
           </div>
           <div class="sku-info octopus-wrapper">
-            <div class="octo-head" style="color: #7b2cbf">
-              <h2 class="sku-title">WARNING</h2>
-              <div class="sku-meta" style="color: #aaa">
+            <div class="octo-head">
+              <img src="warning.png" class="sku-title-img" alt="WARNING" />
+              <div class="sku-meta">
                 조주 난이도: ★★★☆☆ | 위험 요소: 쓴맛 주의
               </div>
-              <p class="sku-desc" style="color: #fff">
-                중간 난이도에서 재료 선택과 조작에 따라 완전히 달라지는 실험 키트
+              <p class="sku-desc">
+                중간 난이도에서 재료 선택과 조작에 따라 완전히 달라지는 실험
+                키트
               </p>
             </div>
 
-            <div class="octo-tentacles" style="color: #ddd">
+            <div class="octo-tentacles">
               <div class="tentacle">
-                <strong style="color: #fff">베이스술</strong>
+                <strong>베이스술</strong>
                 <span>도수가 낮은 보드카</span>
                 <div class="tentacle-suckers">
                   <div class="sucker"></div>
                   <div class="sucker"></div>
                   <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
                 </div>
               </div>
               <div class="tentacle">
-                <strong style="color: #fff">리큐르</strong>
+                <strong>리큐르</strong>
                 <span>진(허브), 캄파리, 트리플섹, 베르무트</span>
                 <div class="tentacle-suckers">
                   <div class="sucker"></div>
                   <div class="sucker"></div>
                   <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
                 </div>
               </div>
               <div class="tentacle">
-                <strong style="color: #fff">부재료</strong>
+                <strong>부재료</strong>
                 <span>자몽, 꿀, 허브</span>
                 <div class="tentacle-suckers">
                   <div class="sucker"></div>
                   <div class="sucker"></div>
                   <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
                 </div>
               </div>
               <div class="tentacle">
-                <strong style="color: #fff">실험도구</strong>
+                <strong>실험도구</strong>
                 <span>쉐이커, 지거, 믹싱 글라스, 머들러, 바스푼</span>
                 <div class="tentacle-suckers">
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
                   <div class="sucker"></div>
                   <div class="sucker"></div>
                   <div class="sucker"></div>
@@ -1557,48 +1680,65 @@
             <img src="x%20mark.png" alt="Danger mark" />
           </div>
           <div class="sku-info octopus-wrapper">
-            <div class="octo-head" style="color: #ff007f">
-              <h2 class="sku-title">DANGER</h2>
-              <div class="sku-meta" style="color: #aaa">
+            <div class="octo-head">
+              <img src="danger.png" class="sku-title-img" alt="DANGER" />
+              <div class="sku-meta">
                 조주 난이도: ★★★★★ | 위험 요소: 높은 도수, 불
               </div>
-              <p class="sku-desc" style="color: #fff">
-                높은 난이도에서 퍼포먼스를 통해 파격적인 결과를 직접 완성하는 키트
+              <p class="sku-desc">
+                높은 난이도에서 퍼포먼스를 통해 파격적인 결과를 직접 완성하는
+                키트
               </p>
             </div>
 
-            <div class="octo-tentacles" style="color: #ddd">
+            <div class="octo-tentacles">
               <div class="tentacle">
-                <strong style="color: #fff">베이스술</strong>
+                <strong>베이스술</strong>
                 <span>도수가 낮은 보드카</span>
                 <div class="tentacle-suckers">
                   <div class="sucker"></div>
                   <div class="sucker"></div>
                   <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
                 </div>
               </div>
               <div class="tentacle">
-                <strong style="color: #fff">리큐르</strong>
+                <strong>리큐르</strong>
                 <span>오버프루프 럼, 캄파리, 진, 트리플섹</span>
                 <div class="tentacle-suckers">
                   <div class="sucker"></div>
                   <div class="sucker"></div>
                   <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
                 </div>
               </div>
               <div class="tentacle">
-                <strong style="color: #fff">부재료</strong>
+                <strong>부재료</strong>
                 <span>오렌지 필, 각설탕, 계피 스틱</span>
                 <div class="tentacle-suckers">
                   <div class="sucker"></div>
                   <div class="sucker"></div>
                   <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
                 </div>
               </div>
               <div class="tentacle">
-                <strong style="color: #fff">실험도구</strong>
+                <strong>실험도구</strong>
                 <span>쉐이커, 지거, 머들러, 토치, 내열잔, 바스푼</span>
                 <div class="tentacle-suckers">
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
+                  <div class="sucker"></div>
                   <div class="sucker"></div>
                   <div class="sucker"></div>
                   <div class="sucker"></div>
@@ -1616,7 +1756,7 @@
       </section>
     </div>
 
-    <!-- SKU 세부정보 모달 (보고서 스타일 + 기존 상세 가이드 유지) -->
+    <!-- SKU 세부정보 모달 -->
     <div id="detailModal">
       <div class="modal-content report-style">
         <div class="report-sidebar">
@@ -1630,18 +1770,21 @@
         <div class="report-main">
           <div class="report-header">
             <button class="close-btn">&times;</button>
-            <div class="test-no">TEST NO. <span class="handwritten" id="m-test-no">043</span></div>
-           
+            <div class="test-no">
+              TEST NO. <span class="handwritten" id="m-test-no">043</span>
+            </div>
           </div>
-          
+
           <div class="report-body">
             <div class="cell">
               <div class="cell-title">ASSUMPTION.</div>
               <h2 id="m-title">SKU TITLE</h2>
-              <div id="m-desc" class="handwritten">조주 난이도 및 위험 요소 설명</div>
+              <div id="m-desc" class="handwritten">
+                조주 난이도 및 위험 요소 설명
+              </div>
               <div class="page-indicator">1/3</div>
             </div>
-            
+
             <div class="cell">
               <div class="cell-title">PROCESS. BRAND GUIDE</div>
               <div class="guide-grid">
@@ -1649,7 +1792,8 @@
                   <h4><span>STEP 1</span> 환경 조성</h4>
                   <ul>
                     <li id="m-step1-alert">
-                      액체가 쏟아지거나 튈 수 있으므로 평평하고 닦기 쉬운 테이블 준비
+                      액체가 쏟아지거나 튈 수 있으므로 평평하고 닦기 쉬운 테이블
+                      준비
                     </li>
                   </ul>
                 </div>
@@ -1657,15 +1801,21 @@
                   <h4><span>STEP 2</span> 가이드 숙지</h4>
                   <ul>
                     <li>키트 개봉 후 가장 먼저 실험노트 내용 꼼꼼히 확인</li>
-                    <li>도구가 낯설다면 노트의 추천조합(실험자료) 가이드 활용</li>
+                    <li>
+                      도구가 낯설다면 노트의 추천조합(실험자료) 가이드 활용
+                    </li>
                     <li>추천 조합으로 1차 실험을 진행하며 가볍게 감 익히기</li>
                   </ul>
                 </div>
                 <div class="step-card">
                   <h4><span>STEP 3</span> 조주 및 기록</h4>
                   <ul>
-                    <li>지거, 쉐이커 등을 이용해 자유롭게 용량 측정 및 혼합 시도</li>
-                    <li>자신만의 황금 비율이나 특이한 조합을 찾았다면 메모 필수</li>
+                    <li>
+                      지거, 쉐이커 등을 이용해 자유롭게 용량 측정 및 혼합 시도
+                    </li>
+                    <li>
+                      자신만의 황금 비율이나 특이한 조합을 찾았다면 메모 필수
+                    </li>
                     <li>실험노트 내 실험 보고서란에 재료와 감상 기록</li>
                   </ul>
                 </div>
@@ -1673,21 +1823,24 @@
                   <h4><span>STEP 4</span> 결과 직면</h4>
                   <ul>
                     <li>본 실험에는 정해진 모범 답안이 없음</li>
-                    <li>비율 실패로 인한 쓴맛, 독한 술 등 모든 것이 실험의 결과</li>
+                    <li>
+                      비율 실패로 인한 쓴맛, 독한 술 등 모든 것이 실험의 결과
+                    </li>
                     <li>실패와 성공을 모두 즐기며 의외성의 재미 만끽하기</li>
                   </ul>
                 </div>
               </div>
               <div class="page-indicator">2/3</div>
             </div>
-            
+
             <div class="cell">
               <div class="cell-title">VARIABLES. PACKAGE SPECS</div>
               <div class="kit-visual-container">
                 <div class="box-label">전체 규격: 24cm x 19cm</div>
                 <div class="kit-box">
                   <div class="item-bottle main-alcohol">
-                    <span class="item-name" id="m-main-alc">메인술 병</span><span class="vol-text">(200ml)</span>
+                    <span class="item-name" id="m-main-alc">메인술 병</span
+                    ><span class="vol-text">(200ml)</span>
                   </div>
                   <div class="right-section">
                     <div class="item-bottle sub-material">
@@ -1695,13 +1848,16 @@
                     </div>
                     <div class="liqueur-row">
                       <div class="item-bottle liqueur-bottle">
-                        <span class="item-name" id="m-liq1">리큐르 1</span><span class="vol-text">100ml</span>
+                        <span class="item-name" id="m-liq1">리큐르 1</span
+                        ><span class="vol-text">100ml</span>
                       </div>
                       <div class="item-bottle liqueur-bottle">
-                        <span class="item-name" id="m-liq2">리큐르 2</span><span class="vol-text">100ml</span>
+                        <span class="item-name" id="m-liq2">리큐르 2</span
+                        ><span class="vol-text">100ml</span>
                       </div>
                       <div class="item-bottle liqueur-bottle">
-                        <span class="item-name" id="m-liq3">리큐르 3</span><span class="vol-text">100ml</span>
+                        <span class="item-name" id="m-liq3">리큐르 3</span
+                        ><span class="vol-text">100ml</span>
                       </div>
                     </div>
                   </div>
